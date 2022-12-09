@@ -11,7 +11,7 @@
 ## 介绍
 
 该项目相当于一个简单版的v2ex,用户端界面完全模仿[v2ex](https://www.v2ex.com),用户端模板设计版权归[livid](https://www.v2ex.com/member/livid)
-所有,该论坛完成了基本的论坛功能，用户端页面自适应:
+所有,该论坛完成了基本的论坛功能， 用户端页面自适应,演示地址 http://cp-v2.mtgnorton.xyz/k/all
 
 #### 论坛主要功能
 

@@ -72,7 +72,7 @@
     multiLogin = true #是否支持多点登录，默认false
 
 [casbin] #后台使用casbin进行权限控制
-    ignoreUrls = ["/administrator-get-logged-info","/routes","/logout"] # 不需要认证的url
+    ignoreUrls = ["/administrator-get-logged-info","/routes","/logout","/index"] # 不需要认证的url
 # Redis数据库配置
 [redis]
     [redis.default]

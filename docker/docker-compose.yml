@@ -42,8 +42,8 @@ services:
       - "9201:8201"
     volumes:
       - ./data/runtime:/app/runtime
-      - ./config/config-local.toml:/app/config/config-local.toml
-    command: ./wait-for mysql:3306  -- ./main
+      - ./config:/app/config
+    command: ./wait-for mysql:3306  -- ./main -v2.env=dev
     networks:
       - cp-v2-network
     depends_on:

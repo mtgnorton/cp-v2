@@ -118,7 +118,7 @@ func (a *userNoNeedLogin) ResendActiveEmail(ctx context.Context, req *define.Res
 	}
 
 	lastSendTime, err := shared.EmailRecord.GetUserLastEmailTime(ctx, req.Email, model.EMAIL_TYPE_REGISTER)
-	if false && diffHour.Int() > 0 && time.Now().Unix()-lastSendTime < int64(diffHour.Int())*3600 {
+	if diffHour.Int() > 0 && time.Now().Unix()-lastSendTime < int64(diffHour.Int())*3600 {
 
 		return response.NewError(fmt.Sprintf("发送邮件间隔不能超过%d小时，请稍后再试", diffHour.Int()), g.Map{
 			"diffHour":     diffHour.Int(),

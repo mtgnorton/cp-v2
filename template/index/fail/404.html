@@ -1,0 +1,25 @@
+<div class="main">
+  <div class="box">
+    <div class="container-404">
+      <h1>404</h1>
+      <p>
+          {{if .Error}}
+              {{.Error}}
+          {{else}}
+            您要找的页面不存在
+          {{end}}
+        <a href="/">返回首页</a></p>
+    </div>
+
+  </div>
+</div>
+
+
+<style>
+  .container-404 {
+    text-align: center;
+    font-size: 20px;
+    padding: 60px;
+  }
+
+</style>

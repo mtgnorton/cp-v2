@@ -1,0 +1,576 @@
+<link href="/resource-front/css/quill.snow.css" rel="stylesheet"/>
+<script src="/resource-front/js/quill.js"></script>
+
+<div class="main">
+
+  <div class="box post-container">
+
+
+    <div class="post-title-container bottom-line" style="position: relative">
+
+      <div class="post-crumb">
+        <a href="/">{{.SiteName}}</a>
+        <span class="chevron">&nbsp;›&nbsp;</span>
+        <a href="/node-page/{{.Data.Post.Node.Keyword}}">{{.Data.Post.Node.Name}} </a>
+      </div>
+
+      <h2 class="title" style="">
+          {{.Data.Post.Title}} </h2>
+
+
+      <small class="post-info">
+        <a href="/user/{{.Data.Post.Username}}">{{.Data.Post.Username}}</a>
+        <span>·</span>
+        <span>{{.Data.Post.CreatedAt | TimeFormatDivide24Hour}}</span>
+        <span>·</span>
+        <span>{{.Data.Post.VisitAmount}} 次点击</span>
+      </small>
+
+      <img style="position: absolute;top:20px;right:20px;" class="big-avatar" src="{{.Data.Post.User.Avatar}}">
+
+    </div>
+
+    <div class="post-content bottom-line" id="post-content" content="">
+    </div>
+
+    <div class="post-action">
+      <small class="post-action-left">
+          {{if .Data.IsCollectPost}}
+            <a href="#;" class="toggle-collect">取消收藏</a>
+          {{else}}
+            <a href="#;" class="toggle-collect">加入收藏</a>
+          {{end}}
+
+          {{if ne .Data.Post.UserId .User.Id}}
+              {{if .Data.IsShieldPost}}
+                <a href="#;" class="toggle-shield-post">取消屏蔽</a>
+              {{else}}
+                <a href="#;" class="toggle-shield-post">屏蔽主题</a>
+              {{end}}
+
+              {{if .Data.IsThankPost}}
+                <span>感谢已发送</span>
+              {{else}}
+                <a href="#;" class="thanks">感谢</a>
+              {{end}}
+          {{end}}
+      </small>
+
+      <small class="post-action-right">
+                <span>
+                    {{.Data.Post.VisitAmount}} 次点击
+                </span>
+        <span>·</span>
+        <span>
+                    {{.Data.Post.CollectionAmount}} 人收藏
+                </span>
+      </small>
+
+    </div>
+
+  </div>
+
+  <div class="sep20">
+  </div>
+
+  <div class="comments-wrapper">
+
+
+    <div class="box comments-container">
+        {{if .Data.Post.ReplyAmount}}
+          <div class="comments-header bottom-line">
+            <div class="comments-header-left">
+              <span>{{.Data.Post.ReplyAmount}} 条回复</span>
+              <span>·</span>
+              <span>{{.Data.Post.LastChangeTime}}</span>
+            </div>
+          </div>
+        {{end}}
+      <div class="comments">
+
+          {{range $key,$reply := .Data.Post.Replies.List}}
+            <div class="comment-wrapper bottom-line">
+              <img src="{{$reply.UserAvatar}}" class="avatar">
+              <div class="comment">
+                <div class="comment-top">
+                  <div class="comment-top-left">
+                    <a class="username" href="/user/{{$reply.Username}}">{{$reply.Username}}</a>
+
+                      {{if eq $.Data.Post.UserId $reply.UserId}}
+                        <span class="op">OP</span>
+                      {{end}}
+                    <small class="reply-time">{{$reply.CreatedAt | TimeFormatDivide24Hour}}</small>
+                    <small class="equipment"></small>
+                    <span>
+
+                            {{if $reply.ThanksAmount}}
+                              <img src="/resource-front/image/heart.png" class="heart" width="15px">
+
+                              <small>{{$reply.ThanksAmount}}</small>
+                            {{end}}
+                            </span>
+                  </div>
+                  <!--                                    如果回复者是自己，则不显示屏蔽和感谢-->
+                    {{if ne $reply.UserId $.User.Id}}
+
+                      <div class="comment-top-right">
+                        <div class="shield_thank">
+
+
+                          <!--                                    如果已经感谢过了，则不显示屏蔽和感谢-->
+                            {{if InSlice $reply.Id $.Data.ThanksReplyIds}}
+
+                              <span>已经感谢过了</span>
+                            {{else}}
+
+                              <a href="#;" class="shield_reply" data-reply-id="{{$reply.Id}}"
+                                 data-username="{{$reply.Username}}">屏蔽</a>
+                              <a href="#;" class="thanks_reply" data-reply-id="{{$reply.Id}}"
+                                 data-username="{{$reply.Username}}">感谢回复者</a>
+                            {{end}}
+
+
+                        </div>
+
+                      </div>
+
+                    {{end}}
+
+                  <div class="comment-floor">
+                    <a href="#reply-content" class="reply-user"
+                       data-username="{{$reply.Username}}">
+                      <img
+                              src="/resource-front/image/reply.png" width="20px"
+                              style="margin-right: 10px;vertical-align: middle"
+                              alt="">
+                    </a>
+                    <span class="floor">{{$key | plus 1}}</span>
+                  </div>
+                </div>
+
+
+                <div class="comment-content">
+                    {{$reply.Content | TransformReferLink}}
+                </div>
+              </div>
+            </div>
+          {{end}}
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <div class="sep20"></div>
+
+  <div class="box reply-container">
+
+    <div class="reply-header bottom-line">
+      <div class="reply-header-left">
+        <span>添加一条新回复</span>
+      </div>
+      <div class="reply-header-right">
+        <a href="#;" class="cancel-sticky">取消回复框停靠</a>
+        <a href="#header">回到顶部</a>
+      </div>
+    </div>
+
+    <form action="/comments-store">
+      <div class="problem" style="display: none">
+        请解决以下问题然后再提交：
+        <ul></ul>
+      </div>
+
+
+      <div class="reply-content" id="reply-content">
+        <input type="hidden" name="post_id" value="{{.Data.Post.Id}}">
+
+        <textarea name="content" placeholder id="" cols="20" rows="8"></textarea>
+      </div>
+
+      <div class="reply-footer bottom-line">
+        <div class="reply-footer_left">
+          <input type="submit" value="回复">
+            {{/*          <button type="submit">回复</button>*/}}
+
+        </div>
+        <div class="reply-footer_right">
+          请尽量让自己的回复能够对别人有帮助
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+
+</div>
+<div class="sep20"></div>
+
+
+<div class="right-bar">
+    {{include "./right-bar/right-bar-user.html" .}}
+
+  <div class="box reply-prompt ">
+    <div class="reply-prompt-header bottom-line">
+      回复提示
+    </div>
+
+    <div class="reply-prompt-body">
+        {{.Data.ReplyPrompt}}
+    </div>
+  </div>
+
+
+</div>
+
+
+<script>
+
+  let editor = new Quill('#post-content', {modules: {toolbar: []}})
+  editor.enable(false);
+  let content = {{.Data.Post.Content}}
+
+    editor.setContents(content)
+
+  // if (!content.startsWith(`{"ops"`)) {
+  //   editor.setText(content)
+  // } else {
+  //   // 将\n 替换为 \\n
+  //   content = content.replace(/\n/g, '\\n')
+  //
+  //   editor.setContents(JSON.parse(content))
+  // }
+
+
+  let postId = $('input[name="post_id"]').val();
+
+  let replyContent = $('.reply-content textarea');
+
+
+  replyContent.focus(function () {
+    $(".reply-container").addClass('sticky')
+  });
+
+  $('.cancel-sticky').click(function () {
+    $(".reply-container").removeClass('sticky')
+  })
+
+  // 加入/取消 收藏
+  $(".toggle-collect").click(function () {
+    $.post("/posts-toggle-collect", {post_id: postId}, function (res) {
+      if (res.code === 0) {
+        window.location.reload()
+      } else {
+        alert(res.message)
+      }
+    })
+  })
+  $(".toggle-shield-post").click(function () {
+    $.post("/posts-toggle-shield", {post_id: postId}, function (res) {
+      if (res.code === 0) {
+        window.location.reload()
+      } else {
+        alert(res.message)
+      }
+    })
+  })
+  $(".thanks").click(function () {
+    $.post("/posts-thanks", {post_id: postId}, function (res) {
+      if (res.code === 0) {
+        window.location.reload()
+      } else {
+        alert(res.message)
+      }
+    })
+  })
+
+  $(".shield_reply").click(function () {
+    let username = $(this).data("username")
+    let replyId = $(this).data("reply-id")
+    if (window.confirm("确认要不再显示来自 " + username + " 的这条回复？")) {
+      $.post("/replies-shield", {reply_id: replyId}, function (res) {
+        if (res.code === 0) {
+          window.location.reload()
+        } else {
+          alert(res.message)
+        }
+      })
+    }
+  })
+  $(".thanks_reply").click(function () {
+    let username = $(this).data("username")
+    let replyId = $(this).data("reply-id")
+    if (window.confirm("确认要感谢来自 " + username + " 的这条回复？")) {
+      $.post("/replies-thanks", {reply_id: replyId}, function (res) {
+        if (res.code === 0) {
+          window.location.reload()
+        } else {
+          alert(res.message)
+        }
+      })
+    }
+  })
+  //将回复者的姓名填入回复框
+  $(".reply-user").click(function () {
+    let username = $(this).data("username")
+    let content = replyContent.val()
+    replyContent.val(content + "@" + username + " ")
+    setTimeout(function () {
+      replyContent.focus()
+    }, 0)
+  })
+
+
+  $(function ($) {
+
+    $("form").submit(function () {
+      $.post(
+        $(this).attr('action'),
+        $(this).serialize(),
+        function (data) {
+          if (data.code !== 0) {
+            gf.setError(data.message);
+          } else {
+            window.location.reload()
+          }
+        }
+      );
+      return false;
+    });
+  })
+</script>
+
+<style>
+
+  .post-title-container {
+    padding: 20px;
+  }
+
+  .title {
+    margin-right: 75px;
+    margin-top: 10px;
+  }
+
+  .post-crumb {
+    font-size: 15px;
+    line-height: 120%;
+    text-align: left;
+    /*overflow: auto;*/
+  }
+
+  .post-info {
+    color: var(--color-gray);
+  }
+
+  .post-info a {
+    color: var(--color-gray);
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 150%;
+    /*margin: 0 0 10px;*/
+    padding: 0;
+    line-break: anywhere;
+  }
+
+  .post-content {
+    font-size: 15px;
+    padding: 20px;
+    margin: 0px;
+    line-height: 1.6;
+    word-break: break-word;
+
+  }
+
+  .post-action {
+    display: flex;
+    justify-content: space-between;
+    line-height: 40px;
+    height: 40px;
+    padding: 0 20px;
+  }
+
+  .comments-header {
+    padding: 20px;
+    color: var(--color-gray);
+  }
+
+  .comment-wrapper {
+    display: flex;
+    padding: 10px;
+    position: relative;
+  }
+
+  .comment {
+    width: 100%;
+  }
+
+  .comment-wrapper .comment-top {
+    display: flex;
+    justify-content: space-between;
+    /*width: 100%;*/
+    color: var(--color-fade);
+
+  }
+
+
+  .shield_thank {
+    display: inline-block;
+  }
+
+  .comment-floor {
+    display: inline-block;
+  }
+
+  .comment-wrapper .avatar {
+    margin-right: 15px;
+  }
+
+  .comment-top-left .username {
+    margin-right: 10px;
+  }
+
+  .comment-top-left .equipment {
+    margin-right: 25px;
+  }
+
+  .comment-top-left .heart {
+    vertical-align: middle;
+  }
+
+  .comment-top-left .op {
+    background-color: transparent;
+    color: #1484cd;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    width: auto;
+    line-height: 1;
+    padding: 1px 3px;
+    border: 1px solid #1484cd;
+    border-radius: 3px;
+    margin-right: 10px;
+
+  }
+
+  .comment-top-left {
+
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+    /*white-space: nowrap;*/
+  }
+
+  .comment-top-right .shield_thank {
+    margin-right: 20px;
+    visibility: hidden;
+  }
+
+
+  @media screen and (max-width: 600px) {
+    .comment-top-right .shield_thank {
+      visibility: visible;
+
+    }
+
+    .comment-top-right {
+      margin-top: 5px;
+
+    }
+
+    .comment-wrapper .comment-top {
+      display: block;
+    }
+
+    .comment {
+      position: relative;
+    }
+
+    .comment-floor {
+      position: absolute;
+      top: 0px;
+      right: 10px;
+    }
+  }
+
+
+  .comment-top-right:hover .shield_thank {
+    visibility: visible;
+  }
+
+  .comment-content {
+
+    font-size: 16px;
+    line-height: 1.6;
+    word-break: break-word;
+    margin-top: 5px;
+    margin-right: 30px;
+  }
+
+  .sticky {
+    position: -webkit-sticky; /* safari 浏览器 */
+    position: sticky; /* 其他浏览器 */
+    bottom: 1px;
+  }
+
+  .reply-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .reply-time {
+
+  }
+
+
+  .reply-prompt .reply-prompt-header {
+    padding: 10px;
+  }
+
+  .reply-prompt .reply-prompt-body {
+    padding: 10px;
+    color: #999;
+  }
+
+  .reply-content {
+    padding: 20px;
+    padding-right: 30px;
+  }
+
+  .reply-content textarea {
+    overflow: hidden;
+    overflow-wrap: break-word;
+    resize: none;
+    height: 112px;
+    border: 1px solid #ccc !important;
+    border-radius: 3px;
+    width: 100%;
+  }
+
+  .reply-content textarea:focus-visible {
+    outline: 1px solid #8590a6 !important;
+  }
+
+  .reply-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    line-height: 50px;
+    height: 50px;
+  }
+
+  .reply-footer_left {
+    flex: 0 0 80px;
+  }
+
+  .reply-footer_left input {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+
+</style>

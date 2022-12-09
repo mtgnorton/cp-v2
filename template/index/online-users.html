@@ -1,0 +1,81 @@
+<div class="main">
+  <div class="box online-user-container">
+    <div class="online-user-header bottom-line">
+
+      <div class="online-user-left">
+        实时在线用户
+      </div>
+      <div class="online-user-right">
+        在线人数:<span style="font-weight: bold" class="all-count"></span>&nbsp;&nbsp;
+        登录人数:<span style="font-weight: bold" class="login-count"></span>
+      </div>
+    </div>
+    <div class="online-user-content">
+
+    </div>
+  </div>
+</div>
+
+<script>
+  wsApp.ws.onmessage = function (result) {
+    wsApp.lastHeartBeat = new Date().getTime();
+    console.log(result.data);
+
+    let data = JSON.parse(result.data);
+
+
+    if (data.type === "init") {
+
+      data = data.data
+
+      $('.all-count').text(data.allCount)
+      $('.login-count').text(data.loginCount)
+      for (let i = 0; i < data.users.length; i++) {
+        console.log(data.users[i], "ccc");
+
+        $(".online-user-content").append(`
+         <a href="/user/${data.users[i]}">${data.users[i]}</a>
+        `)
+      }
+
+    } else if (data.type === "inc") {
+      data = data.data
+      $('.all-count').text(data.allCount)
+      $('.login-count').text(data.loginCount)
+      if ($(`a[href="/user/${data.username}"]`).length === 0) {
+        $(".online-user-content").append(`
+         <a href="/user/${data.username}">${data.username}</a>
+        `)
+      }
+    } else if (data.type === "dec") {
+      data = data.data
+      $('.all-count').text(data.allCount)
+      $('.login-count').text(data.loginCount)
+      $(`a[href="/user/${data.username}"]`).remove()
+    }
+
+  };
+</script>
+
+<style>
+  .online-user-container {
+
+  }
+
+  div.online-user-header {
+    padding: 10px 20px;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .online-user-content {
+    display: flex;
+    padding: 20px;
+  }
+
+  .online-user-content a {
+    padding: 10px;
+  }
+</style>

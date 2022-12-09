@@ -1,0 +1,292 @@
+<div class="main">
+
+  <div class="setting-container box">
+    <div class="setting-header bottom-line">
+      <img width="60px" src="/resource-front/image/settings.png" alt="">
+      <span>设置</span>
+    </div>
+    <div class=" bottom-line">
+      <div class="setting-tab">
+        <a href="/user/setting">个人主页</a>
+        <a href="/user/setting/password">密码</a>
+        <a href="/user/setting/email">邮箱</a>
+        <a href="/user/setting/avatar">头像</a>
+      </div>
+    </div>
+    <input type="hidden" value="{{.Data.type}}" name="setting-type">
+    <div class="setting-body bottom-line">
+
+      <div class="problem" style="display: none">
+        请解决以下问题然后再提交：
+        <ul>
+
+        </ul>
+      </div>
+
+        {{if eq  .Data.type "index"}}
+
+          <form class="form" action="/user/update">
+
+            <div class="form-item">
+              <label for="">用户名</label>
+              <label for="" style="text-align: left;">{{.Data.userFull.Username}}</label>
+            </div>
+
+            <div class="form-item">
+              <label for="">邮箱</label>
+              <label for="">{{.Data.userFull.Email}}</label>
+            </div>
+
+              {{/*            <div class="form-item">*/}}
+              {{/*              <label for="">个人网站</label>*/}}
+              {{/*              <input type="text" name="site" value="{{.data.userFull.Site}}">*/}}
+              {{/*            </div>*/}}
+
+              {{/*            <div class="form-item">*/}}
+              {{/*              <label for="">所在公司</label>*/}}
+              {{/*              <input type="text" name="company" value="{{.data.userFull.Company}}">*/}}
+              {{/*            </div>*/}}
+
+              {{/*            <div class="form-item">*/}}
+              {{/*              <label for="">工作职位</label>*/}}
+              {{/*              <input type="text" name="job" value="{{.data.userFull.Job}}">*/}}
+              {{/*            </div>*/}}
+
+
+            <div class="form-item">
+              <label for="">所在地</label>
+              <input type="text" name="location" value="{{.Data.userFull.Location}}">
+            </div>
+
+            <div class="form-item">
+              <label for="">签名</label>
+              <textarea name="signature" id="" cols="30" rows="5">{{.Data.userFull.Signature}}</textarea>
+            </div>
+
+            <div class="form-item">
+              <label for="">个人简介</label>
+              <textarea name="introduction" id="" cols="30" rows="10">{{.Data.userFull.Introduction}}</textarea>
+            </div>
+
+            <div class="form-item">
+              <label for=""></label>
+              <input type="submit" class="save-button" value="保存设置">
+            </div>
+
+          </form>
+
+        {{end}}
+
+        {{if eq  .Data.type "password"}}
+
+          <form class="form" action="/user/update/password">
+
+            <div class="form-item">
+              <label for="">旧密码</label>
+              <input type="password" name="old_password">
+            </div>
+
+            <div class="form-item">
+              <label for="">新密码</label>
+              <input type="password" name="password">
+            </div>
+
+            <div class="form-item">
+              <label for="">确认新密码</label>
+              <input type="password" name="password2">
+            </div>
+
+            <div class="form-item">
+              <label for=""></label>
+              <input type="submit" class="save-button" value="保存设置">
+            </div>
+
+          </form>
+
+        {{end}}
+        {{if eq  .Data.type "email"}}
+          <form class="form" action="/user/update/email">
+            <div class="form-item">
+              <label for="">当前注册邮箱</label>
+              <label for="">{{.Data.userFull.Email}}</label>
+            </div>
+            <div class="form-item" style="color: gray">
+              <label for="">&nbsp;&nbsp;</label>
+              <label style="width: 100%; text-align: left;padding-left: 20px;">如果你希望更改你的注册邮件地址，请在下方输入框中填入新的邮件地址。
+
+                然后我们会向此地址发送一封确认信，你需要在 8 小时内点击其中的链接，然后才能完成注册邮件地址更改。</label>
+            </div>
+            <div class="form-item">
+              <label for="">新邮箱</label>
+              <input type="text" name="new_email">
+            </div>
+
+            <div class="form-item">
+              <label for="">账号密码</label>
+              <input type="password" name="password">
+            </div>
+            <div class="form-item">
+              <label for=""></label>
+              <input type="submit" class="save-button" value="保存设置">
+            </div>
+          </form>
+        {{end}}
+
+        {{if eq  .Data.type "avatar"}}
+          <form class="form-avatar" action="/user/upload-avatar">
+            <div class="form-item">
+              <label for="">当前头像</label>
+              <img src="{{.Data.userFull.Avatar}}" alt="" width="60px">
+            </div>
+            <div class="form-item" style="color: gray">
+              <label for=""></label>
+              <label for="" style="width: 100%; text-align: left;padding-left: 20px;">
+                支持 2MB 以内的 PNG / JPEG / GIF / WEBP / BMP 文件
+                推荐使用一张 512x512 的 PNG 文件以获得最佳效果
+              </label>
+            </div>
+            <div class="form-item">
+              <label for="">选择一个新的头像</label>
+              <input type="file" name="avatar" style="border: 0px;">
+
+            </div>
+
+
+            <div class="form-item">
+              <label for=""></label>
+              <input type="submit" class="save-button" value="上传头像">
+            </div>
+          </form>
+        {{end}}
+    </div>
+  </div>
+</div>
+<div class="sep20"></div>
+<div class="right-bar">
+    {{include "right-bar/right-bar-user.html" .}}
+</div>
+
+<script>
+  $(function ($) {
+
+
+    let type = $('input[name="setting-type"]').val();
+    if (type === 'index') {
+      $("a[href='/user/setting']").addClass('user-tab-active');
+    } else {
+      $("a[href='/user/setting/" + type + "']").addClass('user-tab-active');
+    }
+
+    $(".form").submit(function () {
+      $(".save-button").prop('disabled', true);
+
+      $.post(
+        $(this).attr('action'),
+        $(this).serialize(),
+        function (data) {
+          if (data.code !== 0) {
+            $(".save-button").prop('disabled', false);
+
+            gf.setError(data.message);
+          } else {
+            window.location.href = "/prompt/" + data.message;
+          }
+
+        }
+      );
+      return false;
+    });
+
+    $(".form-avatar").submit(function (e) {
+      e.preventDefault();
+      $(".save-button").prop('disabled', true);
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        cache: false,
+        data: new FormData($('.form-avatar')[0]),
+        //ajax2.0可以不用设置请求头，但是jq帮我们自动设置了，这样的话需要我们自己取消掉
+        processData: false,
+        //取消帮我们格式化数据，是什么就是什么
+        contentType: false,
+        success: function (data) {
+          if (data.code !== 0) {
+            $(".save-button").prop('disabled', false);
+
+            gf.setError(data.message);
+          } else {
+            window.location.href = "/prompt/" + data.message;
+          }
+        }
+      });
+
+      return false;
+    });
+
+
+  })
+</script>
+
+<style>
+
+
+  .setting-header {
+
+    display: flex;
+    align-items: center;
+    padding: 15px;
+
+  }
+
+  .setting-header > img {
+    margin-right: 10px;
+  }
+
+  .setting-tab {
+    padding: 15px 25px;
+  }
+
+  .setting-tab > a {
+    min-width: 4.8em;
+    padding: 12px 6px 12px 24px;
+    margin-right: 0 !important;
+    font-size: 16px;
+    font-weight: 500;
+
+  }
+
+  .user-tab-active {
+    color: #06f !important;
+  }
+
+  .form-item {
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .form-item > label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+  }
+
+  .form-item > input {
+    width: 60%;
+  }
+
+  .form-item > textarea {
+    width: 60%;
+  }
+
+  .save-button {
+    background-color: white;
+  }
+
+  .problem li {
+    display: inline-block;
+    word-break: break-all;
+  }
+</style>

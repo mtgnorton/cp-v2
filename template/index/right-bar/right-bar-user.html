@@ -1,0 +1,94 @@
+{{if .User.Username}}
+
+  <div class="box userinfo ">
+    <a href="/user/{{.User.Username}}" class="avatar_2_username bottom-line">
+      <img
+              class="avatar"
+              src="{{.User.Avatar}}"
+              alt=""
+      />
+      <span class="username">{{.User.Username}}</span>
+    </a>
+    <div class="node_collect bottom-line">
+      <a href="/my/nodes">
+        <span>{{.User.CollectNodeCount}}</span>
+        <div class="sep3"></div>
+        <span>节点收藏</span>
+      </a>
+
+      <a href="/my/posts">
+        <span>{{.User.CollectPostCount}}</span>
+        <div class="sep3"></div>
+        <span>主题收藏</span>
+      </a>
+
+      <a href="/my/following">
+        <span>{{.User.FollowUserCount}}</span>
+        <div class="sep3"></div>
+        <span>特别关注</span>
+      </a>
+    </div>
+    <div class="new_post bottom-line">
+      <img
+              src="/resource-front/image/compose.png"
+              width="28"
+              border="0"
+      />
+      <a href="/post-new">创作新主题</a>
+    </div>
+    <div class="message_2_token">
+      <a href="/user/message">{{.User.NoReadCount}}条未读提醒</a>
+      <a href="/user/balance-log">{{.User.Balance}}积分</a>
+    </div>
+
+  </div>
+
+  <div class="sep20"></div>
+
+{{end}}
+
+
+<style>
+  .right-bar > .userinfo > .avatar_2_username {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .right-bar > .userinfo > .avatar_2_username > .username {
+    margin-left: 20px;
+  }
+
+  .right-bar > .userinfo > .node_collect {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .right-bar > .userinfo > .node_collect > a {
+    margin: 3px;
+
+    /* display: block; */
+    text-align: center;
+  }
+
+  .right-bar > .userinfo > .new_post {
+    padding: 10px;
+  }
+
+  .right-bar > .userinfo > .new_post > a {
+    vertical-align: super;
+  }
+
+  .right-bar .userinfo .message_2_token {
+    padding: 3px;
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    line-height: 30px;
+    padding: 10px;
+  }
+
+
+</style>

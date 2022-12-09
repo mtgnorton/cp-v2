@@ -1,0 +1,259 @@
+
+:root {
+  --body-backgroud-color: #e2e2e2;
+  --box-backgroud-color: #fff;
+  --link-color: #778087;
+  --link-hover-color: #294a8e;
+  --color-fade: #ccc;
+  --color-main: #333;
+  --color-gray: #999;
+  --box-border-color: #f0f2f7;
+}
+
+body {
+  background-color: var(--body-backgroud-color);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+}
+
+.bottom-line {
+  border-bottom: 1px solid var(--box-border-color);
+}
+
+.footer {
+  background-color: #fff;
+  border-bottom: none;
+  box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
+  flex: auto;
+  min-height: 100px;
+}
+
+.container-wrapper {
+
+  /*padding: 0 20px;*/
+}
+
+.container {
+  display: flex;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.main {
+  margin-right: 20px;
+  height: fit-content;
+  flex: auto;
+}
+
+
+.sep20 {
+  height: 20px;
+}
+
+
+.sep3 {
+  height: 3px;
+}
+
+.right-bar {
+  /* border: 1px red solid; */
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 1080px) {
+  .container {
+    margin: 0 0;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+  .right-bar {
+    flex: auto;
+    /*flex: auto;*/
+    /*display: none;*/
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .container, .main {
+    margin: 0 0;
+  }
+
+  .sep20 {
+    height: 10px;
+  }
+
+}
+
+
+.box {
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
+}
+
+
+.f-c {
+  padding: 10px;
+}
+
+.f-c .f-ele-c {
+  margin-bottom: 10px;
+}
+
+.f-c .f-ele-l {
+  display: inline-block;
+  width: 100px;
+  text-align: left;
+}
+
+.f-c .f-ele {
+  margin-left: 10px;
+}
+
+.crumb {
+  padding: 10px;
+  font-size: 15px;
+  line-height: 120%;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  overflow: auto;
+}
+
+.avatar {
+  border-radius: 5px;
+  width: 48px;
+  height: 48px;
+}
+
+.big-avatar {
+  border-radius: 5px;
+  width: 65px;
+  height: 65px;
+}
+
+
+.floor {
+  font-size: 9px;
+  line-height: 9px;
+  font-weight: 500;
+  border-radius: 10px;
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #ccc;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.problem {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 120%;
+  text-align: left;
+  background-color: #ffffc0;
+  border-left: 5px solid #fff000;
+  border-bottom: 1px solid #e2e2e2;
+  color: #333;
+}
+
+
+input {
+  border-radius: 3px;
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  font-family: helvetica neue, luxi sans, Tahoma, hiragino sans gb, microsoft yahei, sans-serif, apple logo;
+  box-sizing: border-box;
+  color: #000000;
+}
+
+
+textarea {
+  border-radius: 3px;
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  font-family: helvetica neue, luxi sans, Tahoma, hiragino sans gb, microsoft yahei, sans-serif, apple logo;
+  box-sizing: border-box;
+
+}
+
+input:focus {
+  border: 1px solid #a6a6b0;
+  outline: 0;
+}
+
+textarea:focus {
+  border: 1px solid #a6a6b0;
+  outline: 0;
+}
+
+
+a:active, a:link, a:visited {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--link-color);
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+.center {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pager {
+  padding: 20px;
+}
+
+.pager-item {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 13px;
+  padding: 2px 5px;
+  background-color: #fff;
+  margin: 0 1px;
+  text-decoration: none;
+  border: 1px solid var(--box-border-color);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+}
+
+.pager-current {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  padding: 3px 6px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  margin: 0 1px;
+  border: 1px solid #bbb;
+  color: #000;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 10%)
+}
+
+input[type="submit"] {
+  cursor: pointer;
+}
+
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+  -webkit-appearance: none;
+}
+

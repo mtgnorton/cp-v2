@@ -1,0 +1,106 @@
+<div class="main">
+
+
+  <div class="crumb box">
+    <a href="/">{{.SiteName}}</a>
+    <span class="chevron">&nbsp;›&nbsp;</span>
+
+    <span> 注册 &nbsp;</span>
+
+  </div>
+
+  <div class="problem" style="display: none">
+    请解决以下问题然后再提交：
+    <ul></ul>
+  </div>
+
+
+  <div class="box center">
+    <div class="f-c">
+      <form action="/register">
+        <div class="f-ele-c">
+          <label class="f-ele-l">用户名</label>
+          <input class="f-ele" type="text" name="username" value="mtgnorton">
+        </div>
+        <div class="f-ele-c">
+          <label class="f-ele-l">邮箱</label>
+          <input class="f-ele" type="text" name="email" value="15726204663@163.com">
+        </div>
+
+        <div class="f-ele-c">
+          <label class="f-ele-l">密码</label>
+
+          <input class="f-ele" type="password" name="password" value="123456">
+        </div>
+
+        <div class="f-ele-c">
+          <label class="f-ele-l">确认密码</label>
+
+          <input class="f-ele" type="password" name="password2" value="123456">
+        </div>
+
+          {{include "component/captcha.html" .}}
+
+
+        <div class="f-ele-c">
+          <div class="">
+            <label class="f-ele-l"></label>
+            <input type="submit" class="register-button f-ele" value="注册">
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+<div class="right-bar">
+    {{include "right-bar/right-bar-register.html" .}}
+  <div class="sep20"></div>
+    {{include "right-bar/right-bar-active-email.html" .}}
+
+</div>
+
+<script>
+
+  $('.captcha-img').on('click', gf.throttle(gf.getCaptcha, 800, {'leading': true, 'trailing': false}))
+
+  $(function ($) {
+    gf.getCaptcha()
+
+    $("form").submit(function () {
+      $(".register-button").prop('disabled', true);
+
+      $.post(
+        $(this).attr('action'),
+        $(this).serialize(),
+        function (data) {
+          if (data.code !== 0) {
+            gf.setError(data.message);
+            gf.getCaptcha()
+            $(".register-button").prop('disabled', false);
+
+          } else {
+            window.location.href = "/prompt/" + data.message
+          }
+        }
+      );
+      return false;
+    });
+  })
+</script>
+<style>
+  .f-c {
+    width: 80%;
+  }
+
+  .register-button {
+    padding: 5px 15px;
+    background-color: white;
+  }
+
+  .f-ele {
+    width: 60%;
+  }
+
+
+</style>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>邮箱更改-{{.siteName}}</title>
+</head>
+<body>
+<div class="header">
+  <a href="">
+    <img
+            class="logo"
+            src="{{.logo}}"
+            alt=""
+    /></a>
+</div>
+<div class="container">
+  <h2>嗨 {{.username}},</h2>
+
+  <div class="description">
+    您修改了{{.siteName}}账号的邮箱！在变更之前，我们需要确认您的身份。点击下方的按钮以验证电子邮箱:
+  </div>
+
+  <div class="verify-container">
+    <a href="{{.url}}">验证电子邮件地址</a>
+  </div>
+
+  <div class="bottom-line"></div>
+  <div class="footer">
+    您收到此电子邮件是因为您在{{.siteName}}上更改了邮箱。如果您没有操作，请忽略此电子邮件。
+  </div>
+</div>
+
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #f9f9f9;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15vh;
+  }
+
+  .logo {
+    width: 100px;
+  }
+
+  h2 {
+    font-family: Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande,
+    sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #4f545c;
+    letter-spacing: 0.27px;
+  }
+
+  .description {
+    color: #737f8d;
+    font-family: Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande,
+    sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: left;
+  }
+
+  .container {
+    width: 70%;
+    height: 40%;
+    margin: 0 auto;
+    padding: 40px 50px;
+    border-radius: 5px;
+    text-align: left;
+    vertical-align: top;
+    background: #ffffff;
+  }
+
+  .verify-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .verify-container a {
+    text-decoration: none;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    padding: 15px 19px;
+    vertical-align: middle;
+    background-color: rgb(88, 101, 242);
+    margin-top: 10px;
+  }
+
+  .bottom-line {
+    height: 20px;
+    border-bottom: 1px solid #f0f2f7;
+    margin-bottom: 20px;
+  }
+
+  .footer {
+    color: #747f8d;
+    font-family: Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande,
+    sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: left;
+  }
+</style>
+</body>
+</html>

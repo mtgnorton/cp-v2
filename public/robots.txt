@@ -1,0 +1,6 @@
+User-agent: *
+
+Disallow: /user/setting
+Disallow: /captcha-get
+Disallow: /login-page
+Disallow: /register-page

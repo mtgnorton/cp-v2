@@ -1,0 +1,228 @@
+<div class="main">
+  <div>
+    <div class="user_info box  ">
+      <img src="{{.Data.showUser.Avatar}}" class="big-avatar user_info_avatar">
+      <div class="user_info_detail  ">
+        <h2>{{.Data.showUser.Username}}</h2>
+        <p class="signature" style="color: black">{{.Data.showUser.Signature}}</p>
+        <p style="">{{.SiteName}} 第 {{.Data.showUser.Id}} 号会员，加入于 {{.Data.showUser.CreatedAt}}</p>
+          {{/*      <p>今日活跃度排名 591*/}}
+          {{/*      </p>*/}}
+      </div>
+
+
+        {{if ne .Data.showUser.Username .User.Username}}
+          <div class="user_info_right">
+
+              {{if .Data.whetherFollow}}
+                <a href="javascript:gf.postByLink('/user/follow',{targetId:{{.Data.showUser.Id}}},'确定要取消关注{{.Data.showUser.Username}}么')"
+                   class="cancel_follow_button">
+                  取消特别关注
+                </a>
+              {{else}}
+                <a href="javascript:gf.postByLink('/user/follow',{targetId:{{.Data.showUser.Id}}},'确定要关注{{.Data.showUser.Username}}么')"
+                   class="follow_button">
+                  加入特别关注
+                </a>
+              {{end}}
+
+
+              {{if .Data.whetherShield}}
+                <a href="javascript:gf.postByLink('/user/shield',{targetId:{{.Data.showUser.Id}}},'确定要取消屏蔽{{.Data.showUser.Username}}么')"
+                   class="shield_button">
+                  UnBlock
+                </a>
+              {{else}}
+                <a href="javascript:gf.postByLink('/user/shield',{targetId:{{.Data.showUser.Id}}},'确定要屏蔽{{.Data.showUser.Username}}么')"
+                   class="shield_button">
+                  Block
+                </a>
+              {{end}}
+          </div>
+        {{end}}
+
+    </div>
+    <div class="bottom_line box " style="padding: 20px">
+        {{.Data.showUser.Introduction}}
+    </div>
+  </div>
+
+  <div class="sep20">
+    <input type="hidden" name="visit-type" value="{{.Data.type}}">
+    <input type="hidden" name="username" value="{{.Data.showUser.Username}}">
+    <input type="hidden" name="user_id" value="{{.Data.showUser.Id}}">
+  </div>
+  <div class="box content-wrapper">
+    <div class="content-header bottom-line">
+      <a href="/user/{{.Data.showUser.Username}}" class="header-item">近期主题</a>
+      <a href="/user/{{.Data.showUser.Username}}/replies" class="header-item">近期回复</a>
+    </div>
+    <div class="content-body bottom-line">
+        {{if eq .Data.type "posts"}}
+            {{include "component/posts.html" .}}
+        {{else}}
+            {{include "component/reply-with-post-node.html" .}}
+        {{end}}
+
+    </div>
+
+  </div>
+</div>
+
+<div class="right-bar">
+    {{include "./right-bar/right-bar-online.html" .}}
+
+</div>
+
+<script>
+  $(function () {
+    let type = $("input[name=visit-type]").val();
+    let username = $("input[name=username]").val();
+    let userId = $("input[name=user_id]").val();
+    let href = "/user/" + username;
+    if (type === "replies") {
+      href = "/user/" + username + "/" + type;
+    }
+    console.log(type);
+
+    $(".header-item[href='" + href + "']").addClass("collect-active");
+
+
+    // $(".follow_button").click(function () {
+    //   if (window.confirm(`确定要关注${username}么`)) {
+    //     $.post("/user/follow", {target_id: userId}, function (res) {
+    //       console.log(res);
+    //     })
+    //   }
+    // })
+  })
+</script>
+<style>
+  .user_info {
+    padding: 20px;
+    display: flex;
+    position: relative;
+  }
+
+  .user_info .user_info_avatar {
+    vertical-align: bottom;
+    margin-right: 15px;
+  }
+
+  .user_info_detail h2 {
+    margin: 0px;
+    margin-bottom: 10px;
+  }
+
+  .user_info_detail p {
+    color: var(--color-gray);
+  }
+
+  .signature {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .user_info_right {
+    position: absolute;
+    right: 20px;
+
+  }
+
+  @media screen and (max-width: 600px) {
+
+    .user_info_right {
+      /*position: static;*/
+      display: block;
+      right: 20px;
+    }
+
+    .user_info_right > a{
+      display: block;
+      margin-bottom: 5px;
+    }
+    .user_info_detail h2{
+      margin-bottom: 50px;
+    }
+
+  }
+
+  .user_info_right .follow_button {
+    margin-right: 3px;
+    padding: 4px 15px 3px;
+    line-height: 1.4;
+    border-radius: 2px;
+    background-color: #fc0;
+    color: #532b17;
+    text-shadow: 0 1px 1px rgb(255 255 255 / 60%);
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgb(233 175 0 / 60%);
+    border: 1px solid rgba(200, 150, 0, .8);
+    cursor: pointer;
+  }
+
+  .user_info_right .follow_button:active {
+    background-color: #ffdf00;
+    color: #402112;
+    text-shadow: 0 1px 1px rgb(255 255 255 / 70%);
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgb(233 175 0 / 50%);
+    border: 1px solid #c89600;
+  }
+
+  .user_info_right .cancel_follow_button {
+    margin-right: 3px;
+    padding: 4px 15px 3px;
+    line-height: 1.4;
+    border-radius: 2px;
+    background-color: #ccc;
+    color: var(--color-gray);
+    text-shadow: 0 1px 1px rgb(255 255 255 / 60%);
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgb(200 200 200 / 80%);
+    border: 1px solid rgba(150, 150, 150, .8);
+  }
+
+  .user_info_right .cancel_follow_button:hover {
+    background-color: #999;
+    color: #fff;
+    text-shadow: 0 -1px 1px rgb(0 0 0 / 50%);
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px #c8c8c8;
+    border: 1px solid rgba(150, 150, 150, .6);
+  }
+
+  .user_info_right .shield_button {
+    padding: 4px 15px 3px;
+    line-height: 1.4;
+    border-radius: 2px;
+    background-color: #ffffff;
+    color: black;
+    text-shadow: 0 1px 1px rgb(255 255 255 / 60%);
+    text-decoration: none;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+
+  .content-header {
+    padding: 20px;
+  }
+
+  .header-item {
+    display: inline-block;
+    padding: 0 10px 10px 10px;
+    border-bottom: 3px solid transparent;
+  }
+
+  .header-item:hover {
+    border-color: #f0f0f0;
+  }
+
+  .collect-active, .collect-active:hover {
+    border-color: #778087;
+  }
+</style>
+
+

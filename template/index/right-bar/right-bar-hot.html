@@ -1,0 +1,57 @@
+<div class="box hot">
+  <div class="hot-header bottom-line">
+    <span>今日热议主题</span>
+  </div>
+    {{range $key,$item := .Data.hots.List}}
+      <div class="hot-post bottom-line">
+        <a href="/user/{{$item.Username}}" style="display: inline-block">
+          <img
+                  src="{{$item.UserAvatar}}"
+                  class="avatar"
+                  style="width: 25px;height: 25px;margin-right: 8px"
+                  alt=""
+          />
+        </a>
+        <a class="hot-post-title" href="/post/{{$item.Id}}"
+        >{{$item.Title}}</a
+        >
+      </div>
+    {{end}}
+</div>
+<div class="sep20"></div>
+
+
+<style>
+
+
+  .right-bar .hot .hot-header {
+    padding: 10px;
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  .right-bar .hot .hot-post {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    /*line-height: 20px;*/
+  }
+
+
+  .right-bar .hot .hot-post img {
+    width: 25px;
+    vertical-align: middle;
+
+  }
+
+  .right-bar .hot .hot-post-title {
+    vertical-align: middle;
+    font-size: 13px;
+    line-height: 120%;
+  }
+
+  .right-bar .hot .hot-post-title:hover {
+    text-decoration-line: underline;
+    color: black;
+  }
+</style>

@@ -1,0 +1,103 @@
+<div class="main">
+
+
+  <div class="crumb box">
+    <a href="/">{{.SiteName}}</a>
+    <span class="chevron">&nbsp;›&nbsp;</span>
+
+    <span> 登录 &nbsp;</span>
+
+  </div>
+
+  <div class="problem" style="display: none">
+    请解决以下问题然后再提交：
+    <ul></ul>
+  </div>
+
+  <div class="box center">
+    <div class="f-c">
+      <form action="/login">
+        <div class="f-ele-c">
+          <label class="f-ele-l">用户名</label>
+          <input class="f-ele" type="text" name="username" value="mtgnorton">
+        </div>
+
+
+        <div class="f-ele-c">
+          <label class="f-ele-l">密码</label>
+
+          <input class="f-ele" type="password" name="password" value="123456">
+        </div>
+
+          {{include "component/captcha.html" .}}
+
+        <div class="f-ele-c">
+
+          <label class="f-ele-l"></label>
+          <input type="submit" class="f-ele login-button" value="登录">
+        </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+<div class="right-bar">
+
+    {{include "right-bar/right-bar-login.html" .}}
+    <div class="sep20">
+
+    </div>
+    {{include "right-bar/right-bar-forget-password.html" .}}
+
+</div>
+
+
+<script>
+
+
+  $(function ($) {
+
+
+    $("form").submit(function () {
+      $(".register-button").prop('disabled', true);
+
+      $.post(
+        $(this).attr('action'),
+        $(this).serialize(),
+        function (data) {
+          console.log(data);
+          $(".register-button").prop('disabled', false);
+
+          if (data.code === 0) {
+            gf.setCookie("cp-v2-token", data.data.token, 24 * 10);
+            window.location.href = "/";
+          } else {
+            gf.setError(data.message);
+            $(".register-button").prop('disabled', false);
+
+          }
+        }
+      );
+      return false;
+    });
+  })
+</script>
+
+
+<style>
+  .f-c {
+    width: 80%;
+  }
+
+  .login-button {
+    padding: 5px 15px;
+    background-color: white;
+  }
+
+  .f-ele {
+    width: 60%;
+  }
+
+
+</style>

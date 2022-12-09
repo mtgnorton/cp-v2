@@ -1,0 +1,177 @@
+<link href="/resource-front/css/quill.snow.css" rel="stylesheet"/>
+<script src="/resource-front/js/quill.js"></script>
+
+
+<link href="/resource-front/css/select2.min.css" rel="stylesheet"/>
+<script src="/resource-front/js/select2.min.js"></script>
+
+<div class="main">
+  <div class="crumb box">
+    <a href="/">{{.SiteName}}</a>
+    <span class="chevron">&nbsp;›&nbsp;</span>
+
+    <span> 创作新主题 &nbsp;</span>
+
+  </div>
+
+
+  <div class="problem" style="display: none">
+    请解决以下问题然后再提交：
+    <ul></ul>
+  </div>
+
+
+  <div class="box post_container">
+    <div class="f-c">
+      <form action="/posts-store" method="post">
+        <div class="f-ele-c">
+          <input class="post_title"
+                 name="title"
+                 style="border-radius: 0"
+                 type="text" placeholder="请输入主题标题，如果标题能够表达完整内容，则正文可以为空">
+        </div>
+        <div class="f-ele-c">
+
+
+          <div id="post-content" class="post-content">
+
+          </div>
+
+        </div>
+
+        <div class="post-new-node bottom-line">
+          <label style="width: 60px;vertical-align: bottom;margin-right: 5px;">主题节点:</label>
+          <select name="node_id" id="nodes">
+              {{range $key,$value := .Data.node.List}}
+
+                <option value="{{$value.Id}}">{{$value.Name}}</option>
+              {{end}}
+
+          </select>
+        </div>
+
+
+        <div class="post-new-submit">
+          <input type="submit" class="button" value="发布主题">
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+</div>
+<div class="sep20"></div>
+
+<div class="right-bar">
+
+  <div class="box post-new-prompt">
+    <div class="post-new-prompt-header bottom-line">
+      发帖提示
+    </div>
+    <div class="post-new-prompt-content">
+        {{.Data.prompt}}
+    </div>
+  </div>
+
+
+
+</div>
+
+<script>
+
+  $(function ($) {
+
+
+    let editor = gf.initEditor("post-content")
+    $('#nodes').select2();
+
+
+    $("form").submit(function (event) {
+      event.preventDefault();
+
+      let htmlContent = $('.ql-editor').html();
+
+      let data = {
+        title: $("input[name='title']").val(),
+        content: JSON.stringify(editor.getContents()),
+        html_content: htmlContent,
+        node_id: $("select[name='node_id']").val(),
+      }
+
+
+      $.post(
+        $(this).attr('action'),
+        data,
+        function (data) {
+          console.log(data);
+          if (data.code === 0) {
+            window.location.href = '/post/' + data.data.id;
+          } else {
+            gf.setError(data.message);
+          }
+        }
+      );
+      return false;
+    });
+
+  })
+</script>
+
+
+<style>
+
+
+  .container {
+    overflow: auto;
+  }
+
+  .post_title {
+    width: 100%;
+    font-size: 16px;
+    line-height: 100%;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    height: 36px;
+  }
+
+  .post-new-node {
+    padding-top: 5px;
+    padding-bottom: 10px;
+  }
+
+  .post-new-node select {
+    padding: 3px 5px;
+    width: 160px;
+  }
+
+  .post-new-submit {
+    padding-top: 10px;
+  }
+
+  /*.post-new-submit > button {*/
+  /*  width: 200px;*/
+  /*}*/
+
+  .post-new-submit input {
+    color: #000;
+    background-color: white;
+    display: inline-block;
+    padding: 3px 50px;
+  }
+
+  .post-content {
+    height: 300px;
+  }
+
+  .post-new-prompt-content {
+    padding: 20px;
+  }
+
+  .post-new-prompt-header {
+    padding: 10px;
+    font-size: 16px;
+    vertical-align: middle;
+
+  }
+</style>

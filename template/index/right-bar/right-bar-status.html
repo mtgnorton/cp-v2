@@ -1,0 +1,53 @@
+<div class="box forum_status">
+    <div class="forum_status_title">社区运行状况</div>
+    <div class="forum_status_content ">
+        <div>
+            <span class="status_name">注册会员</span>
+            <span class="status_number">{{.Data.siteInfo.UserCount}}</span>
+        </div>
+        <div>
+            <span class="status_name">主题</span>
+            <span class="status_number">{{.Data.siteInfo.PostCount}}</span>
+        </div>
+        <div>
+            <span class="status_name">回复</span>
+            <span class="status_number">{{.Data.siteInfo.ReplyCount}}</span>
+        </div>
+    </div>
+</div>
+
+{{/*<div class="sep20"></div>*/}}
+
+<style>
+
+
+
+  .right-bar .forum_status .forum_status_title {
+    padding: 10px;
+    font-size: 17px;
+    box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
+  }
+
+  .right-bar .forum_status .forum_status_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .right-bar .forum_status .forum_status_content div {
+    width: 200px;
+    padding: 5px;
+    margin-top: 10px;
+  }
+
+  .right-bar .forum_status .forum_status_content div .status_name {
+    display: inline-block;
+    text-align: right;
+    width: 80px;
+  }
+
+  .right-bar .forum_status .forum_status_content div .status_number {
+    font-weight: bold;
+
+  }
+</style>

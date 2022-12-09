@@ -1,0 +1,51 @@
+<div class="reply_wrapper bottom-line">
+    {{range $key,$reply := .Data.replies.List}}
+    <div class="reply">
+        <div class="reply-header">
+            <div class="reply-header-left">
+                回复了 <a href="/user/{{$reply.PostUsername}}">{{$reply.PostUsername}}</a> 创建的主题 › <a
+                    href="/node-page/{{$reply.NodeKeyword}}">{{$reply.NodeName}}</a> › <a
+                    href="/post/{{$reply.PostId}}">{{$reply.PostTitle}}</a>
+            </div>
+
+            <div class="reply-header-right">
+                {{$reply.CreatedAt | TimeFormatDivide24Hour}}
+            </div>
+
+
+        </div>
+        <div class="reply-content">
+            {{$reply.Content | TransformReferLink}}
+        </div>
+    </div>
+
+    {{end}}
+
+
+</div>
+
+
+<style>
+  .reply {
+    width: 100%;
+  }
+
+  .reply-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px 8px 15px;
+    font-size: 12px;
+    text-align: left;
+    background-color: #edf3f5;
+    color: var(--color-gray);
+  }
+
+  .reply-content {
+    padding: 10px 24px;
+
+    font-size: 16px;
+    line-height: 1.6;
+    word-break: break-word;
+    vertical-align: middle;
+  }
+</style>

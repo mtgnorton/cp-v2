@@ -1,0 +1,81 @@
+<div class="main">
+  <div class="box node-list-header">
+    <img src="/resource-front/image/network.png" alt="">
+    <div style="display: inline-block">
+      <div>
+          {{.SiteName}}节点列表
+
+      </div>
+      <div style="color: gray">
+          {{.Data.nodeCategories.NodeTotal}} nodes now and growing.
+
+      </div>
+    </div>
+  </div>
+  <div class="sep20"></div>
+    {{range $key,$category := .Data.nodeCategories.List}}
+
+      <div class="node-block-wrapper box">
+        <div class="node-block-header bottom-line">
+          <div class="node-block-header-left">
+              {{$category.Name}}
+          </div>
+          <div class="node-block-header-right">
+              {{$category.Nodes | len}} nodes
+          </div>
+        </div>
+        <div class="node-block">
+            {{range $subKey,$node := $category.Nodes}}
+              <a href="/node-page/{{$node.Keyword}}">{{$node.Name}}</a>
+            {{end}}
+        </div>
+      </div>
+      <div class="sep20"></div>
+    {{end}}
+
+</div>
+<div class="right-bar">
+    {{include "./right-bar/right-bar-user.html" .}}
+</div>
+<style>
+  .node-list-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .node-list-header img {
+    width: 50px;
+    height: 50px;
+    margin-right: 30px;
+  }
+
+  .node-block-wrapper {
+  }
+
+  .node-block-header {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    line-height: 30px;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    color: #999;
+
+  }
+
+  .node-block {
+    padding: 10px;
+  }
+
+  .node-block a {
+    display: inline-block;
+    height: 30px;
+    padding: 2px 10px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #ffffff;
+    margin: 5px;
+    border-radius: 5px;
+  }
+</style>

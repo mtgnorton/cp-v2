@@ -1,0 +1,140 @@
+<div class="main">
+  <div class="box index_nodes bottom-line">
+      {{range $key,$item := .Data.nodes.List}}
+        <a href="/k/{{$item.Keyword}}" data-node="{{$item.Keyword}}"
+        >{{$item.Name}}</a>
+        {{if eq $item.Keyword $.Data.currentNodeKeyword}}
+          <div class="hidden-sub-nodes" style="display: none">
+              {{range $key,$subItem := $item.Children}}
+                <a href="/node-page/{{$subItem.Keyword}}">{{$subItem.Name}}</a>
+              {{end}}
+          </div>
+        {{end}}
+      {{end}}
+
+    <input type="hidden" class="current-node-keyword" value="{{.Data.currentNodeKeyword}}">
+  </div>
+
+    {{/*  <div class="box sub_nodes">*/}}
+
+    {{/*  </div>*/}}
+
+  <div class="box">
+
+      {{include "component/posts.html" .}}
+
+    <div class="post-footer">
+      <span class="chevron">»</span> <a href="/node-page/all">更多新主题</a>
+    </div>
+  </div>
+
+  <div class="sep20">
+
+  </div>
+    {{include "./component/node-navigation.html" .}}
+</div>
+<div class="sep20">
+
+</div>
+<div class="right-bar">
+
+
+    {{include "./right-bar/right-bar-user.html" .}}
+
+    {{include "./right-bar/right-bar-online.html" .}}
+
+    {{include "./right-bar/right-bar-history.html" .}}
+
+    {{include "./right-bar/right-bar-hot.html" .}}
+
+    {{include "./right-bar/right-bar-status.html" .}}
+
+
+</div>
+
+
+<style>
+
+
+  .index_nodes {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+
+
+  @media screen and (max-width: 950px) {
+    .index_nodes {
+      grid-template-columns: repeat(auto-fill, 85px);
+    }
+  }
+
+  .index_nodes > a {
+    /*font-weight: 500;*/
+    color: #555;
+    font-size: 14px;
+    line-height: 14px;
+    padding: 5px 8px;
+    margin-right: 5px;
+    border-radius: 3px;
+  }
+
+  .node_active {
+    background-color: #334;
+    color: #fff !important;
+  }
+
+  .index_nodes > a:hover {
+    background-color: #f5f5f5;
+    color: #000;
+    text-decoration: none;
+  }
+
+  .index_nodes > .node_active:hover {
+    background-color: #334;
+    color: #fff !important;
+  }
+
+  .sub_nodes {
+    background-color: #f9f9f9;
+    padding: 10px 10px;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: left;
+    color: #999;
+  }
+
+  .sub_nodes > a {
+    margin-left: 15px;
+  }
+
+  .sub_nodes > a:hover {
+    margin-left: 15px;
+    color: var(--link-hover-color);
+  }
+
+  .post-footer {
+    padding: 8px 10px;
+  }
+</style>
+
+<script>
+
+
+  $(function () {
+    let currentNodeKeyword = $(".current-node-keyword").val()
+    // 给当前节点添加active class
+    $('.index_nodes > a[data-node="' + currentNodeKeyword + '"]').addClass("node_active")
+
+    // let h = $(".hidden-sub-nodes").html()
+    // console.log(_.trim(h));
+    //
+    // if (_.trim(h) !== "") {
+    //   $('.sub_nodes').append(h)
+    // } else {
+    //   $('.sub_nodes').remove()
+    // }
+  })
+
+</script>
+

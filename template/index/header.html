@@ -1,0 +1,190 @@
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/resource-front/css/common.css?v=2">
+<script src="/resource-front/js/jquery.min.js"></script>
+{{/*<script src="/resource-front/js/lodash.js"></script>*/}}
+<script src="/resource-front/js/common.js?v=2"></script>
+<div class="header" id="header">
+  <div class="header-content">
+    <div class="header-left">
+      <a href="/">
+        <img
+                src="{{.Logo}}"
+                height="30px"
+                alt=""
+        />
+      </a>
+      <div class="search-container">
+        <input type="text" class="search-input" oninput="searchChange(event)"/>
+        <div class="search-go" style="display: none">
+          <div class="search-content" style="background: #fafafa;padding:5px;">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="header-right">
+      <a href="/"> 首页</a>
+        {{if .User.Username}}
+          <a href="/user/setting">设置</a>
+          <a href="/logout">退出</a>
+        {{else}}
+          <a href="/register-page">注册</a>
+          <a href="/login-page">登录</a>
+        {{end}}
+
+    </div>
+  </div>
+</div>
+
+<script>
+  var wsApp = gf.wsInit(`ws`)
+
+
+  function searchChange(event) {
+    $(".search-go").css("display", "block")
+    let val = $(event.target).val()
+    $(".search-content").html(`<a href="/search/post/${val}/1">搜索：${val}</a>`);
+  }
+
+  $(function () {
+
+
+    $(".search-container input").focus(function () {
+      $('.search-container').addClass('search-active');
+    })
+
+
+    $("#input1").bind("input propertychange", function (event) {
+      console.log($("#input1").val())
+    });
+
+
+    $(".search-container input").blur(function () {
+      $('.search-container').removeClass('search-active');
+    })
+    $(':not(".search-container,.search-input,.search-go,.search-content")').click(function () {
+      $(".search-go").css("display", "none")
+    })
+
+    $(".search-container input").keyup(function (event) {
+      let val = $(event.target).val()
+
+      if (event.keyCode === 13 && val !== "") {
+        window.location.href = `/search/post/${val}/1`
+      }
+    })
+
+
+  })
+</script>
+
+<style>
+  .header {
+    background-color: #fff;
+    height: 50px;
+    border-bottom: none;
+    box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .header-content {
+    /*min-width: 950px;*/
+    max-width: 1080px;
+    flex: auto;
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+  .header-right {
+    line-height: 40px;
+  }
+
+  .header-right > a:nth-child(1),
+  .header-right > a:nth-child(2) {
+    margin-right: 20px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-container {
+    border-radius: 16px;
+    height: 34px;
+    width: 246px;
+    padding-left: 30px;
+    background-color: #fafafa;
+    transition: all .15s;
+    border: 1px #fafafa solid;
+    position: relative;
+    margin: 0 0 2px 10px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .search-container {
+      width: 50px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .right-bar {
+      display: none;
+    }
+
+    .container, .main {
+      margin: 0 0;
+    }
+
+  }
+
+  .search-container::before {
+    content: "";
+    width: 47px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    background: url("/resource-front/image/search.png");
+    background-color: transparent;
+    background-size: 17px 17px;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: opacity(40%);
+  }
+
+  .search-container input {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    line-height: 34px;
+    padding: 1px;
+    font-family: helvetica neue, luxi sans, Tahoma, hiragino sans gb, STHeiti, sans-serif;
+    background-color: transparent;
+    border: none;
+    padding-left: 12px;
+
+  }
+
+  .search-active {
+    border-color: #a6a6b0;
+  }
+
+  .search-go {
+    position: absolute;
+    background-color: #fff;
+    padding: 12px;
+    width: 100%;
+    top: 36px;
+    left: 0;
+    z-index: 10;
+  }
+
+  .search-content {
+    word-break: break-all;
+
+  }
+</style>

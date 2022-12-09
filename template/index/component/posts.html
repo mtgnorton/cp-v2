@@ -1,0 +1,117 @@
+{{range $key,$post := .Data.posts.List}}
+
+  <div class="post-wrapper bottom-line">
+    <a href="/member" class="avatar-wrapper">
+      <img
+              src="{{$post.UserAvatar}}"
+              class="avatar"
+              alt=""
+      />
+    </a>
+    <div class="post-info-wrapper">
+      <a href="/post/{{$post.Id}}" class="post-title" style="margin-right: 30px;">{{$post.Title}}</a>
+
+      <div class="post-info" style="">
+        <a class="node" href="/node-page/{{$post.NodeKeyword}}">{{$post.NodeName}}</a>
+
+        <a href="/user/{{$post.Username}}"> &nbsp;&nbsp;•&nbsp;&nbsp;{{$post.Username}}</a>
+
+
+        <span>&nbsp;•&nbsp;{{$post.LastChangeTime | TimeFormatDivide24Hour}}</span>
+
+          {{if $post.ReplyLastUsername}}
+            <span> &nbsp;&nbsp;•&nbsp; 最后回复来自</span>
+            <a href="/user/{{$post.ReplyLastUsername}}">{{$post.ReplyLastUsername}}</a>
+          {{end}}
+          {{if $.Data.showTop}}
+              {{if $post.IsTop}}
+                <span>&nbsp;&nbsp;•&nbsp; 置顶</span>
+
+              {{end}}
+          {{end}}
+      </div>
+    </div>
+
+    <a class="replies" href="/post/{{$post.Id}}"> {{$post.ReplyAmount}} </a>
+  </div>
+
+
+{{end}}
+
+<style>
+
+  .post-wrapper {
+    display: flex;
+    padding: 10px;
+    position: relative;
+  }
+
+  .post-wrapper > .avatar-wrapper {
+    margin-top: 3px;
+  }
+
+  .post-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+
+  .post-info {
+    line-height: 20px;
+  }
+
+  .post-info-wrapper > .post-title {
+    font-size: 18px;
+    line-height: 25px;
+    margin-bottom: 7px;
+    color: #778087;
+  }
+
+  .post-info-wrapper > .post-title:hover {
+    text-decoration: underline;
+    color: black;
+  }
+
+
+  .post-info-wrapper > .post-info {
+    font-size: 12px;
+    color: #ccc;
+  }
+
+  .post-info-wrapper > .post-info a {
+    font-size: 12px;
+    color: #ccc;
+  }
+
+  .post-wrapper > .replies {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    align-self: center;
+  }
+
+  @media screen and (max-width: 600px) {
+
+    .post-wrapper > .replies {
+      display: inline-block;
+      /*margin-bottom: 50px;*/
+    }
+  }
+
+  .post-info-wrapper > .post-info > .node {
+    background-color: #f5f5f5;
+    font-size: 12px;
+    line-height: 12px;
+    display: inline-block;
+    padding: 4px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    text-decoration: none;
+    color: #999;
+  }
+
+  .post-wrapper a:hover, .post-info > .node:hover {
+    color: var(--link-hover-color);
+  }
+</style>

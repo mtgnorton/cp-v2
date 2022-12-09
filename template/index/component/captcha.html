@@ -1,0 +1,33 @@
+<div class="f-ele-c captcha-wrapper">
+    <label class="f-ele-l">你是机器人吗？
+    </label>
+
+
+    <div style="display: inline-block" class="f-ele">
+                        <div class="captcha-img" style="margin:10px;cursor: pointer;"
+                        ></div>
+        <input type="hidden" name="captcha_id" value="">
+        <input class="captcha-code" placeholder="请输入上方的验证码,点击可以更换图片"
+               type="text"
+               name="captcha_code">
+    </div>
+
+</div>
+
+<script>
+  $('.captcha-img').on('click', gf.throttle(gf.getCaptcha, 800, {'leading': true, 'trailing': false}))
+
+  $(function () {
+    gf.getCaptcha()
+  })
+
+</script>
+
+<style>
+
+  .captcha-code {
+    width: 100%;
+  }
+
+
+</style>

@@ -1,0 +1,52 @@
+version: '3'
+
+networks:
+  cp-v2-network:
+services:
+  mysql:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/mysql.dockerfile
+    restart: unless-stopped
+    container_name: cp-v2-mysql
+    tty: true
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: forum
+      MYSQL_USER: forum
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - cp-v2-network
+  redis:
+    image: redis:6.0
+    container_name: cp-v2-redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./data/redis/redis.conf:/etc/redis.conf:ro
+      - ./data/redis:/data/:rw
+    restart: always
+    entrypoint: [ "redis-server", "/etc/redis.conf" ]
+    networks:
+      - cp-v2-network
+  web:
+    image: mtgnorton/cp-v2:0.1
+    container_name: cp-v2-web
+    ports:
+      - "9200:8200"
+      - "9201:8201"
+    volumes:
+      - ./data/runtime:/app/runtime
+      - ./config/config-local.toml:/app/config/config-local.toml
+    command: ./wait-for mysql:3306  -- ./main
+    networks:
+      - cp-v2-network
+    depends_on:
+      - mysql
+      - redis
+

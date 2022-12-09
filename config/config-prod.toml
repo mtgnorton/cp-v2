@@ -1,0 +1,92 @@
+# HTTP Server
+[server] #后台
+    address     = ":8200"  #后台运行端口
+    serverAgent = "CP-V2"
+    logPath     = "runtime/server" #后台服务日志路径
+    sessionPath =  "temp/sessions"    # Session文件存储目录
+    openapiPath =  "/api.json"
+    swaggerPath =  "/swagger" #swagger文档路径
+    prefix      =  "/admin" #后台访问前缀
+    serverRoot  = "public" #后台服务根目录
+    indexFolder         = false                        # 当访问静态文件目录时，是否展示目录下的文件列表。默认关闭，那么请求将返回403
+    fileServerEnabled   = true                        # 静态文件服务总开关。默认false
+    templatePath = "template/admin" # 模板文件搜索目录路径，建议使用绝对路径。默认为当前程序工作路径
+
+[front] #前台
+    port = "8201" #前台运行端口
+    prefix      =  "/"
+    serverRoot  =  "public"
+    registerEncryptKey = "noworldcanexpressmywholehearted1" #生成激活凭证时用到的加密密钥
+    templatePath       = "template/index" # 模板文件搜索目录路径，建议使用绝对路径。默认为当前程序工作路径
+    templateLayout = "layout.html"  #布局模板文件，前台的所有页面都会引用这个模板
+    templateDefaultFile = "index.html"          # 默认解析的模板引擎文件。默认为"index.html"
+
+[viewer]
+    AutoEncode  = false                 # 是否默认对变量内容进行XSS编码。默认为false
+
+[upload]
+    path        = "upload" #上传文件目录
+# Logger.
+[logger]
+    Path        = "runtime/gf-admin"
+    Level       = "all"
+    Stdout      = true
+[logger.token]
+    path = "runtime/token"
+    level = "all"
+    stdout = true
+[logger.auth]
+    path = "runtime/auth"
+    level = "all"
+    stdout = true
+[logger.ws]
+    path = "runtime/ws"
+    level = "all"
+    stdout = true
+# Database.
+[database] #mysql数据库配置
+    link  = "mysql:root:secret@tcp(127.0.0.1:3306)/forum?loc=Local&parseTime=true"
+    debug = true
+# Database logger.
+[database.logger]
+    path   = "runtime/sql"
+    level  = "all"
+    stdout = true
+
+[token] # 后台认证配置
+    cacheMode = "redis" #cache是使用默认缓存，redis使用redis
+    cacheKey  = "administrator_token_"
+    timeout =  0  #token过期时间，单位为毫秒，默认10天
+    maxRefresh = 0 #token刷新时间，单位为毫秒，默认为timeout
+    # 的一半
+    encryptKey = "noworldcanexpressmywholehearted1" #aes加密key,key的长度必须是16/24/32位
+    multiLogin = true #是否支持多点登录，默认false
+[front_token] #前台认证配置
+    cacheMode = "redis" #cache是使用默认缓存，redis使用redis
+    cacheKey  = "front_token_"
+    timeout =  0  #token过期时间，单位为毫秒，默认10天
+    maxRefresh = 0 #token刷新时间，单位为毫秒，默认为timeout
+    # 的一半
+    encryptKey = "noworldcanexpressmywholehearted1" #aes加密key,key的长度必须是16/24/32位
+    multiLogin = true #是否支持多点登录，默认false
+
+[casbin] #后台使用casbin进行权限控制
+    ignoreUrls = ["/administrator-get-logged-info","/routes","/logout","/index"]
+# Redis数据库配置
+[redis]
+    [redis.default]
+    address = "127.0.0.1:6379"
+    db = 0
+    [redis.session]
+    address = "127.0.0.1:6379"
+    db = 1
+
+[[gfcli.gen.dao]] #生成dao,entity,dto层，因为goframe版本的变化，导致当前目录结构和gf不适用,如果需要新增一个表的相关文件,参见assist/generate_dao.go
+    link     = "mysql:root:secret@tcp(127.0.0.1:3306)/forum"
+    removePrefix = "ga_,forum"
+    overwriteDao = true
+    modelFile = "all.go"
+    jsonCase = "snake"
+    path="./app"
+
+

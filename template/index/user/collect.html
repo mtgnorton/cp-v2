@@ -1,0 +1,111 @@
+<div class="main">
+    <div class="box collect-header">
+        <img width="60px" src="/resource-front/image/bookmark.png" alt="">
+        <span>我收藏的内容</span>
+    </div>
+    <div class="sep20">
+
+    </div>
+
+    <input type="hidden" name="collect_type" value="{{.Data.type}}">
+    <div class="box content-wrapper">
+        <div class="content-header">
+            <a href="/my/nodes" class="collect-item">节点</a>
+            <a href="/my/posts" class="collect-item">主题</a>
+            <a href="/my/following" class="collect-item">特别关注</a>
+        </div>
+        <div class="content-body bottom-line">
+
+            {{if eq .Data.type "nodes"}}
+            <div class="node-list">
+                {{ range $key,$item := .Data.collectNodes}}
+                <a href="/node-page/{{$item.Keyword}}" class="node">
+                    <img width="90px" src="{{$item.Img}}" alt="">
+                    <span>{{$item.Name}}</span>
+                    <span>{{$item.CollectAmount}}关注</span>
+                </a>
+                {{end}}
+            </div>
+            {{end}}
+
+
+            {{if eq .Data.type "posts" "following"}}
+            <div class="post-list">
+
+                {{include "component/posts.html" .}}
+            </div>
+            {{end}}
+
+        </div>
+    </div>
+
+</div>
+<div class="right-bar">
+
+    {{include "./right-bar/right-bar-user.html" .}}
+
+
+</div>
+
+<script>
+  $(function () {
+    let type = $("input[name=collect_type]").val();
+    let href = "/my/" + type;
+    console.log(type);
+
+    $(".collect-item[href='" + href + "']").addClass("collect-active");
+  })
+</script>
+
+<style>
+  .collect-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 30px;
+    font-weight: 400;
+    font-size: 16px;
+    border: none;
+  }
+
+  .collect-header img {
+    margin-right: 10px;
+  }
+
+  .content-header {
+    padding: 20px;
+  }
+
+  .content-header > a:nth-child(1),
+  .content-header > a:nth-child(2) {
+    margin-right: 15px;
+  }
+
+  .collect-item {
+    display: inline-block;
+    padding: 0 10px 10px 10px;
+    border-bottom: 3px solid transparent;
+  }
+
+  .collect-item:hover {
+    border-color: #f0f0f0;
+  }
+
+  .collect-active, .collect-active:hover {
+    border-color: black;
+  }
+
+  .node-list {
+    display: flex;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+
+  .node {
+    display: flex;
+    flex-direction: column;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+  }
+</style>

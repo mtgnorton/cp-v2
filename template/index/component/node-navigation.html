@@ -1,0 +1,67 @@
+<div class="box node-list">
+  <div class="node-header bottom-line">
+    <span style="color:#999;">{{.SiteName}}/节点导航</span>
+    <a href="/node-list-page">浏览全部节点</a>
+  </div>
+
+  <div class="node-body">
+
+      {{range $key,$category := .Data.nodeCategories.List}}
+        <div class="node-row bottom-line">
+
+          <div class="category">
+            <span class="color-gray">{{$category.Name}}</span>
+
+          </div>
+          <div class="nodes">
+              {{range $subKey,$node := $category.Nodes}}
+                <a href="/node-page/{{$node.Keyword}}">{{$node.Name}}</a>
+              {{end}}
+          </div>
+
+        </div>
+      {{end}}
+
+  </div>
+</div>
+
+
+<style>
+  .node-list {
+
+  }
+
+  .node-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .node-row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+  }
+
+  .node-row a {
+    padding: 0 10px;
+  }
+
+  .color-gray {
+    color: #999;
+  }
+
+  .category {
+    flex: 0 0 100px;
+    text-align: center;
+  }
+
+  .nodes {
+    flex: auto;
+    word-break: keep-all;
+    line-height: 25px;
+    text-align: left;
+
+  }
+</style>

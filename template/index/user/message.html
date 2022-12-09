@@ -1,0 +1,113 @@
+<div class="main">
+  <div class="box message-parent-header bottom-line">
+    <div>
+      <a href="/">{{.SiteName}}</a>
+      <span class="chevron">&nbsp;›&nbsp;</span>
+
+      <span> 消息提醒 &nbsp;</span>
+
+    </div>
+    <div><span style="color:gray;">总共收到提醒</span> {{.Data.messages.Total}}</div>
+  </div>
+  <div class="box message-parent-body">
+      {{.Data.pager.Html}}
+
+    <div class="message_wrapper ">
+        {{range $key,$item := .Data.messages.List}}
+          <div class="message bottom-line">
+            <div class="message-header" style="color: #ccc;">
+              <a href="/user/{{$item.User.Username}}" style="margin-right: 7px">
+                <img src="{{$item.User.Avatar}}" class="avatar" style="width: 25px;height:25px;">
+              </a>
+              <div class="message-header-left">
+
+
+                <a href="/user/{{$item.User.Username}}" style="margin-right: 7px">
+                  <strong> {{$item.User.Username}}</strong>
+                </a>
+
+
+                  {{if eq $item.Message.Type "post_owner"}}
+
+                    在你创建的主题&nbsp; &nbsp;<a href="/post/{{$item.Post.Id}}">{{$item.Post.Title}}</a>
+                    &nbsp;&nbsp;进行了回复
+
+                  {{end}}
+
+                  {{if eq $item.Message.Type "reply"}}
+
+                    在&nbsp; &nbsp;<a href="/post/{{$item.Post.Id}}">{{$item.Post.Title}}</a>
+                    &nbsp;&nbsp;里回复了你
+
+                  {{end}}
+
+
+                <span>&nbsp;&nbsp; {{$item.Message.CreatedAt | TimeFormatDivide24Hour}}</span>
+              </div>
+
+
+            </div>
+            <div class="message-content">
+                {{$item.Reply.Content | TransformReferLink}}
+            </div>
+          </div>
+
+        {{end}}
+
+
+    </div>
+      {{.Data.pager.Html}}
+
+  </div>
+</div>
+
+<div class="right-bar">
+    {{include "right-bar/right-bar-user.html" .}}
+</div>
+<style>
+
+  .message-body {
+    padding: 10px 20px;
+  }
+
+  .message-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .message {
+    width: 100%;
+  }
+
+  .message-parent-header {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    padding: 20px;
+
+  }
+
+  .message-header-left {
+    display: flex;
+    padding-top: 10px;
+    text-align: left;
+  }
+
+  .message-content {
+    padding: 10px 24px 10px 50px  ;
+
+    font-size: 14px;
+    line-height: 1.6;
+    word-break: break-word;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+
+  }
+
+  .message-header-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+</style>

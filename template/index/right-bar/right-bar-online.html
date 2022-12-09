@@ -1,0 +1,52 @@
+<div class="box online">
+  <div class="online-header bottom-line">
+    实时在线用户数量
+  </div>
+  <div class="content">
+    <div class="all-online-count">
+      共有 <span style="font-weight: bold;" class="all-count">110</span> 人在线
+    </div>
+    <div class="login-online-count">
+      <a href="/online-users">
+        其中 <span style="    font-weight: bold" class="login-count">20</span> 人登录
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="sep20">
+
+</div>
+<script>
+  wsApp.ws.onmessage = function (result) {
+    wsApp.lastHeartBeat = new Date().getTime();
+    console.log(result.data);
+
+    let data = JSON.parse(result.data);
+
+
+    if (data.type === "init" || data.type === "inc" || data.type === "dec") {
+      data = data.data
+      $('.all-count').text(data.allCount)
+      $('.login-count').text(data.loginCount)
+    }
+  };
+
+</script>
+<style>
+
+
+  .online-header {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .content {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+</style>

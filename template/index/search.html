@@ -1,0 +1,67 @@
+<div class="main">
+  <div>
+    <div class="search-header box">
+      搜索结果:{{.Data.keyword}}
+    </div>
+    <div class="box content-wrapper">
+      <div class="content-header bottom-line">
+        <a href="/search/post/{{.Data.keyword}}/1" class="search-post header-item">搜索主题</a>
+        <a href="/search/reply/{{.Data.keyword}}/1" class="search-reply header-item">搜索回复</a>
+      </div>
+      <div>{{.Data.pager.Html}}</div>
+      <input type="hidden" name="search-type" value="{{.Data.type}}"/>
+      <div class="content-body bottom-line">
+          {{if eq .Data.type "post"}}
+              {{include "component/posts.html" .}}
+          {{else}}
+              {{include "component/reply-with-post-node.html" .}}
+          {{end}}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+  $(function () {
+    let type = $("input[name=search-type]").val();
+    if (type === "post") {
+      $(".search-post").addClass("search-active");
+      $(".search-post").attr("disabled",true).css("pointer-events","none");
+
+
+    } else {
+      $(".search-reply").addClass("search-active");
+      $(".search-reply").attr("disabled",true).css("pointer-events","none");
+
+    }
+  })
+</script>
+
+<style>
+  .search-header {
+    font-size: 20px;
+    font-weight: 400;
+    padding: 10px ;
+    text-align: center;
+  }
+
+  .content-header {
+    padding: 20px;
+  }
+
+  .header-item {
+    display: inline-block;
+    padding: 0 10px 10px 10px;
+    border-bottom: 3px solid transparent;
+  }
+
+  .header-item:hover {
+    border-color: #f0f0f0;
+  }
+
+  .search-active, .search-active:hover {
+    border-color: #778087;
+
+  }
+</style>

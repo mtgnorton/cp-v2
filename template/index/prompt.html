@@ -1,0 +1,64 @@
+<div class="main">
+  <div class="box">
+    <div class="prompt">
+        {{.Data.prompt}}
+    </div>
+
+    <div class="second_down">
+    </div>
+
+    <input type="hidden" name="redirect_url" value="{{.Data.redirectUrl}}">
+  </div>
+
+</div>
+
+
+<script>
+  $(function () {
+    let redirectUrl = $('input[name=redirect_url]').val();
+    console.log(redirectUrl, 111);
+
+    // 2秒后返回上一页面 并且修改second_down的秒数
+    var second = 2;
+
+    let prompt = "秒后返回上一页"
+
+    if (redirectUrl) {
+      prompt = "秒后跳转"
+    }
+
+
+    $('.second_down').html('2'+prompt);
+
+    var timer = setInterval(function () {
+      second--;
+      if (second === 0) {
+        clearInterval(timer);
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        } else {
+          window.history.back();
+        }
+      }
+      $('.second_down').html(second + prompt);
+    }, 1000);
+
+  })
+
+</script>
+
+<style>
+  .prompt {
+    text-align: center;
+    font-size: 20px;
+    padding: 60px;
+    padding-bottom: 40px;
+  }
+
+  .second_down {
+    text-align: center;
+    font-size: 15px;
+    padding: 10px;
+    color: gray;
+  }
+</style>

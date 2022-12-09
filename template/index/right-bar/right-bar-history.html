@@ -1,0 +1,52 @@
+{{if .User.Username}}
+  <div class="box history">
+    <div class="history-header bottom-line">
+      <span>最近查看过的主题</span>
+    </div>
+      {{range $key,$item := .Data.histories.List}}
+        <div class="history-post bottom-line">
+          <a href="/user/{{$item.Username}}" style="display: inline-block">
+            <img
+                    src="{{$item.UserAvatar}}"
+                    class="avatar"
+
+                    style="width: 25px;height: 25px;margin-right: 8px"
+            />
+          </a>
+          <a class="history-post-title" href="/post/{{$item.Id}}"
+          >{{$item.Title}}</a
+          >
+        </div>
+      {{end}}
+  </div>
+  <div class="sep20"></div>
+
+{{end}}
+<style>
+
+
+  .right-bar .history .history-header {
+    padding: 10px;
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  .right-bar .history .history-post {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    /*line-height: 20px;*/
+  }
+
+
+  .right-bar .history .history-post-title {
+    vertical-align: middle;
+    font-size: 13px;
+  }
+
+  .right-bar .history .history-post-title:hover {
+    text-decoration-line: underline;
+    color: black;
+
+  }
+</style>

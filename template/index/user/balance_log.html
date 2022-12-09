@@ -1,0 +1,99 @@
+<div class="main">
+  <div class="balance-header box bottom-line">
+    <div>
+      <a href="/">{{.SiteName}}</a>
+      <span class="chevron">&nbsp;›&nbsp;</span>
+
+      <span> 账户余额 &nbsp;</span>
+
+    </div>
+  </div>
+  <div class="balance-middle bottom-line box">
+    <div>当前账户余额&nbsp;</div>
+    <div class="balance-container">
+      <span class="balance-num">{{.User.Balance}}</span>
+      <span class="balance-unit">积分</span>
+    </div>
+  </div>
+  <div class="box log-container">
+      {{.Data.pager.Html}}
+    <div class="log-records">
+
+      <table>
+        <thead>
+        <tr>
+          <th>时间</th>
+          <th>类型</th>
+          <th>数额</th>
+          <th>余额</th>
+          <th>描述</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $key,$item :=  .Data.log.List}}
+          <tr>
+            <td>{{$item.CreatedAt}}</td>
+            <td>{{$item.TypeShow}}</td>
+            <td>{{$item.Amount}}</td>
+            <td>{{$item.After}}</td>
+            <td>{{$item.Remark}}</td>
+          </tr>
+        {{end}}
+        </tbody>
+
+      </table>
+    </div>
+      {{.Data.pager.Html}}
+  </div>
+</div>
+<div class="right-bar">
+    {{include "right-bar/right-bar-user.html" .}}
+</div>
+
+<style>
+  .balance-header {
+    padding: 20px;
+  }
+
+  .balance-middle {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .balance-container {
+    font-size: 18px;
+  }
+
+  .balance-num {
+    font-weight: bold;
+  }
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 12px 12px;
+    border: #ccc 1px solid;
+  }
+
+  th {
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    /*background-color: #dddddd;*/
+  }
+
+  tr td:nth-child(2) {
+    width: 85px;
+  }
+</style>
+

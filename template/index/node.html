@@ -1,0 +1,126 @@
+<div class="main">
+    <div class="box node-info">
+        <img src="{{.Data.node.Img}}" alt="" width="64px">
+
+        <input type="hidden" name="node-id" value="{{.Data.node.Id}}">
+        <div class="node-name-desc">
+            <div>
+                <a href="/">{{.SiteName}}</a>
+                <span class="chevron">&nbsp;›&nbsp;</span>
+
+                <span> {{.Data.node.Name}} &nbsp;</span>
+
+            </div>
+            <p> {{.Data.node.Description}} &nbsp;</p>
+        </div>
+
+        <div class="node-posts-count">
+            <span>主题总数 {{.Data.pager.TotalRow}}</span>
+        </div>
+    </div>
+    <div class="collect-node-wrapper box">
+        <a href="/post-new">
+            创建新主题
+        </a>
+        {{if eq .Data.node.IsVirtual 0}}
+        {{if .Data.isCollectNode}}
+        <a href="#;" class="collect-node">取消收藏</a>
+        {{else}}
+        <a href="#;" class="collect-node">加入收藏</a>
+        {{end}}
+        {{end}}
+    </div>
+    <div class="sep20"></div>
+    <div class="box">
+        {{.Data.pager.Html}}
+
+        {{include "component/posts.html" .}}
+
+
+        <div>
+            {{.Data.pager.Html}}
+
+            <div class="pager-footer">
+                <div class="pager-footer-left">
+                    第 {{.Data.pager.BeginIndex}} 到 {{.Data.pager.EndIndex}} / 共 {{.Data.pager.TotalRow}} 个主题
+
+                </div>
+                <div class="pager-footer-right">
+                    {{if .Data.nodeCollectAmount}}
+                    {{.Data.nodeCollectAmount}} 人收藏了这个节点
+                    {{else}}
+                    暂无人收藏这个节点
+                    {{end}}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="right-bar">
+    {{include "./right-bar/right-bar-user.html" .}}
+</div>
+<script>
+
+  let nodeId = $("input[name='node-id']").val();
+  $(".collect-node").click(function () {
+    $.post("/node/toggle-collect", {node_id: nodeId}, function (res) {
+      if (res.code === 0) {
+        window.location.reload()
+      } else {
+        alert(res.message)
+      }
+    })
+  })
+</script>
+
+<style>
+  .node-info {
+    display: flex;
+    padding: 20px;
+    position: relative;
+    background-color: #001D25;
+    color: #fff
+  }
+
+  .node-info a {
+    color: #03C8FF;
+  }
+
+  .node-name-desc{
+    margin-left: 15px;
+  }
+  .node-posts-count {
+    position: absolute;
+    right: 20px;
+  }
+
+  .pager-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+  }
+
+  .pager-footer-left {
+    color: var(--color-gray);
+  }
+
+  .collect-node-wrapper {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .collect-node-wrapper  a:nth-child(1) {
+    color: #000;
+    background-color: white;
+    padding: 3px 10px;
+    border: 1px solid #ccc;
+  }
+  .collect-node-wrapper  a:nth-child(2) {
+    line-height: 30px;
+  }
+</style>

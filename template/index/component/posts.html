@@ -1,7 +1,7 @@
 {{range $key,$post := .Data.posts.List}}
 
   <div class="post-wrapper bottom-line">
-    <a href="/member" class="avatar-wrapper">
+    <a href="/user/{{$post.Username}}" class="avatar-wrapper">
       <img
               src="{{$post.UserAvatar}}"
               class="avatar"

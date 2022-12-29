@@ -125,7 +125,7 @@ func (s *sView) Render401(ctx context.Context, data ...define.View) {
 	if view.Title == "" {
 		view.Title = "无访问权限"
 	}
-	view.Template = s.getViewFolderName(ctx) + "/pages/401.html"
+	view.Template = "fail/401.html"
 	s.Render(ctx, view)
 }
 
@@ -138,7 +138,7 @@ func (s *sView) Render403(ctx context.Context, data ...define.View) {
 	if view.Title == "" {
 		view.Title = "无访问权限"
 	}
-	view.Template = s.getViewFolderName(ctx) + "/pages/403.html"
+	view.Template = "fail/403.html"
 	s.Render(ctx, view)
 }
 

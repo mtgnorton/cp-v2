@@ -35,7 +35,7 @@ services:
     networks:
       - cp-v2-network
   web:
-    image: mtgnorton/cp-v2:0.1
+    image: mtgnorton/cp-v2:latest
     container_name: cp-v2-web
     ports:
       - "9200:8200"

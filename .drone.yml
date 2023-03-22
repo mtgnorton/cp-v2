@@ -1,0 +1,73 @@
+kind: pipeline
+name: default
+
+workspace:
+  path: /drone/src
+# 定义步骤
+
+steps:
+  - name: restore-cache-with-filesystem
+    image: meltwater/drone-cache
+    pull: true
+    settings:
+      backend: "filesystem"
+      restore: true
+      cache_key: "volume"
+      archive_format: "gzip"
+      mount:
+        - 'vendor'
+    volumes:
+      - name: cache
+        path: /tmp/cache
+
+  # 构建应用程序
+  - name: build
+    image: golang:latest
+    environment:
+      GOPROXY: https://goproxy.cn
+    commands:
+      - /bin/sh build.sh
+
+  # 构建 Docker 镜像
+  - name: docker_build_push
+    image: plugins/docker
+    settings:
+      repo: mtgnorton/cp-v2
+      #      registry: docker.io
+      cache_from:
+        - mtgnorton/cp-v2:latest
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    tags:
+      - latest
+  - name: rebuild-cache-with-filesystem
+    image: meltwater/drone-cache
+    pull: true
+    settings:
+      backend: "filesystem"
+      rebuild: true
+      cache_key: "volume"
+      archive_format: "gzip"
+      mount:
+        - 'vendor'
+    volumes:
+      - name: cache
+        path: /tmp/cache
+
+  - name: deploy
+    image: appleboy/drone-ssh
+    settings:
+      host: 111.229.8.39
+      username:
+        from_secret: ssh_username
+      password:
+        from_secret: ssh_password
+      script:
+        - cd /www/wwwroot/cp-v2/docker
+        - /usr/local/bin/docker-compose stop web && /usr/local/bin/docker-compose  pull web && /usr/local/bin/docker-compose up -d web
+volumes:
+  - name: cache
+    host:
+      path: /var/lib/cache

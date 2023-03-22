@@ -59,6 +59,7 @@ func Run(ctx context.Context) {
 		g.Log().Fatal(ctx, "view path error, %s", err)
 	}
 
+	g.Log().Info(ctx, "drone cd test")
 	service.FrontTokenInstance.Init(ctx)
 	g.View().BindFunc("TimeFormatDivide24Hour", utility.TimeFormatDivide24Hour)
 	g.View().BindFunc("InSlice", utility.InSlice)

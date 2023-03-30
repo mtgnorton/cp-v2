@@ -2,7 +2,6 @@ FROM --platform=linux/amd64  alpine
 
 MAINTAINER mtgnorton
 
-
 ENV WORKDIR  /app
 
 WORKDIR $WORKDIR/

@@ -5,7 +5,7 @@ LABEL stage=gobuilder
 ENV CGO_ENABLED 0
 ENV GOPROXY https://goproxy.cn,direct
 
-RUN echo -e 'https://mirrors.aliyun.com/alpine/v3.6/main/\nhttps://mirrors.aliyun.com/alpine/v3.6/community/' > /etc/apk/repositories && \
+RUN sed -i 's!http://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories && \
    apk update --no-cache && apk add --no-cache tzdata
 
 
@@ -26,7 +26,7 @@ ENV WORKDIR  /app
 
 WORKDIR $WORKDIR/
 
-RUN  echo -e 'https://mirrors.aliyun.com/alpine/v3.6/main/\nhttps://mirrors.aliyun.com/alpine/v3.6/community/' > /etc/apk/repositories &&  \
+RUN sed -i 's!http://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories &&  \
      apk update --no-cache && apk add --no-cache ca-certificates
 
 COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai

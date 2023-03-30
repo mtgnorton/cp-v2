@@ -6,19 +6,19 @@ workspace:
 # 定义步骤
 
 steps:
-  - name: restore-cache-with-filesystem
-    image: meltwater/drone-cache
-    pull: true
-    settings:
-      backend: "filesystem"
-      restore: true
-      cache_key: "volume"
-      archive_format: "gzip"
-      mount:
-        - 'vendor'
-    volumes:
-      - name: cache
-        path: /tmp/cache
+#  - name: restore-cache-with-filesystem
+#    image: meltwater/drone-cache
+#    pull: true
+#    settings:
+#      backend: "filesystem"
+#      restore: true
+#      cache_key: "volume"
+#      archive_format: "gzip"
+#      mount:
+#        - 'vendor'
+#    volumes:
+#      - name: cache
+#        path: /tmp/cache
 
   # 构建应用程序
   - name: build
@@ -42,19 +42,19 @@ steps:
         from_secret: docker_password
     tags:
       - latest
-  - name: rebuild-cache-with-filesystem
-    image: meltwater/drone-cache
-    pull: true
-    settings:
-      backend: "filesystem"
-      rebuild: true
-      cache_key: "volume"
-      archive_format: "gzip"
-      mount:
-        - 'vendor'
-    volumes:
-      - name: cache
-        path: /tmp/cache
+#  - name: rebuild-cache-with-filesystem
+#    image: meltwater/drone-cache
+#    pull: true
+#    settings:
+#      backend: "filesystem"
+#      rebuild: true
+#      cache_key: "volume"
+#      archive_format: "gzip"
+#      mount:
+#        - 'vendor'
+#    volumes:
+#      - name: cache
+#        path: /tmp/cache
 
   - name: deploy
     image: appleboy/drone-ssh

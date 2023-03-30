@@ -11,11 +11,10 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 WORKDIR /build
 
-ADD go.mod .
-ADD go.sum .
-RUN go mod download
+
 COPY . .
-RUN go build -ldflags="-s -w" -o /app/main .
+
+RUN go mod tidy &&  go build -ldflags="-s -w" -o /app/main .
 
 
 

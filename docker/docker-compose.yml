@@ -42,8 +42,9 @@ services:
       - "9201:8201"
     volumes:
       - ./data/runtime:/app/runtime
+      - ./upload:/app/upload
       - ./config:/app/config
-    command: ./wait-for mysql:3306  -- ./main -v2.env=dev
+    command: ./wait-for mysql:3306  -- ./main  # -v2.env=dev
     networks:
       - cp-v2-network
     depends_on:

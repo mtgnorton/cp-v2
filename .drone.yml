@@ -21,12 +21,12 @@ steps:
 #        path: /tmp/cache
 
   # 构建应用程序
-  - name: build
-    image: golang:latest
-    environment:
-      GOPROXY: https://goproxy.cn
-    commands:
-      - /bin/sh build.sh
+#  - name: build
+#    image: golang:latest
+#    environment:
+#      GOPROXY: https://goproxy.cn
+#    commands:
+#      - /bin/sh build.sh
 
   # 构建 Docker 镜像
   - name: docker_build_push

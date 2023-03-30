@@ -7,7 +7,7 @@ echo "/go 下的内容为:"
 ls /go
 go mod tidy
 echo "开始编译"
-go build -o ./temp/linux_amd64/main .
+go build  -ldflags="-s -w"  -o ./temp/linux_amd64/main .
 echo "编译完成"
 #rm -rf vendor
 #mv /go vendor

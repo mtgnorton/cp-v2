@@ -40,6 +40,7 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
+      mirror: https://jrhr5zqe.mirror.aliyuncs.com
     tags:
       - latest
 #  - name: rebuild-cache-with-filesystem

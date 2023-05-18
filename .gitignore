@@ -26,3 +26,4 @@ test/
 /go_test_gf_admin_app_system_admin_internal_service.test
 gf-admin-unit-base.db
 gf-admin-unit-base-instance.db
+/docker/data

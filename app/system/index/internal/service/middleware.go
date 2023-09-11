@@ -56,9 +56,14 @@ func (s *middleware) Auth(r *ghttp.Request) {
 	}
 
 	if user.Id == 0 {
-		View().Render403(r.Context(), define.View{
-			Error: "未登录或会话已过期，请您登录后再继续",
-		})
+		if r.IsAjaxRequest() {
+			response.JsonExit(r, 403, "未登录或会话已过期，请您登录后再继续", g.Map{})
+		} else {
+			View().Render403(r.Context(), define.View{
+				Error: "未登录或会话已过期，请您登录后再继续",
+			})
+		}
+
 		r.Exit()
 	}
 

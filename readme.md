@@ -2,7 +2,6 @@
 
 - [介绍](#介绍)
 - [技术栈和依赖](#技术栈和依赖)
-- [目录介绍](#目录介绍)
 - [安装和运行](#安装和运行)
 - [项目截图](#项目截图)
 
@@ -43,22 +42,6 @@
 
 后端语言为golang,框架为goframe2.0,后台为前后端分离，前端使用vue2.6+element,前台为传统的模版渲染，前台全局只依赖jquery,前后台富文本编辑器均使用quill,数据库使用mysql,关于项目的模块化设计参见:https://goframe.org/pages/viewpage.action?pageId=3672891
 
-## 目录介绍
-
-```azure
-app ├──
-dao ├── dto ├── model 全局定义层 ├── shared 全局service层 ├── system ├── admin 后台模块 ├── controller 后台控制器层 ├── define 后台定义层 ├── service 后台服务层 ├── index 前台模块 ├── controller 前台控制器层 ├── define 前台定义层 ├── service 前台服务层
-assist ├── generate_dao.go 生成dao层,entity层,dto层 代码
-config 配置文件目录
-docker docker部署目录
-public 静态资源目录和web根目录
-runtime 运行时目录
-temp 编译后的文件存放目录
-template ├── admin 后台模板目录 ├── index 前台模板目录
-utility 工具函数目录    
-compile-front.sh 将后台前端打包后的文件复制到public目录
-docker-build.sh 将项目打包成docker镜像    
-```    
 
 ## 安装和运行
 
